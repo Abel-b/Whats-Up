@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         if (userName.equals("Admin") && userPassword.equals("1234") ){
             Intent intent = new Intent(MainActivity.this, CategoryActivity.class);
             startActivity(intent);
+            Toast.makeText(MainActivity.this, "Successfully Logged in", Toast.LENGTH_LONG).show();
         }else {
             Counter --;
 
