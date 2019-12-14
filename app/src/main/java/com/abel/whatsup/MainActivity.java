@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         Name = (EditText) findViewById(R.id.etText);
         Password = (EditText) findViewById(R.id.etPassword);
         Info = (TextView) findViewById(R.id.tvInfo);
@@ -41,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void validate(String userName, String userPassword){
         if (userName.equals("Admin") && userPassword.equals("1234") ){
-            Intent intent = new Intent(MainActivity.this, NewsActivity.class);
+            Intent intent = new Intent(MainActivity.this, CategoryActivity.class);
             startActivity(intent);
         }else {
             Counter --;
