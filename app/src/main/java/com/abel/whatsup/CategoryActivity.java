@@ -30,7 +30,7 @@ public class CategoryActivity extends AppCompatActivity implements View.OnClickL
         mUserText = (TextView) findViewById(R.id.userText);
         Intent intent = getIntent();
         String user = intent.getStringExtra("user");
-        mUserText.setText("What would you like to view, " + user);
+        mUserText.setText("Welcome, " + user);
 
         mNewsBtn.setOnClickListener(this);
         mWeatherBtn.setOnClickListener(this);
