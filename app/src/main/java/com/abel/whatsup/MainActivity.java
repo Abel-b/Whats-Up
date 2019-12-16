@@ -10,7 +10,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MainActivity extends AppCompatActivity {
+
+    @BindView(R.id.etText) EditText mEtText;
 
     private EditText Name;
     private EditText Password;
@@ -24,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        ButterKnife.bind(this);
 
         Name = (EditText) findViewById(R.id.etText);
         Password = (EditText) findViewById(R.id.etPassword);
@@ -43,7 +49,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void validate(String userName, String userPassword){
         if (userName.equals("Admin") && userPassword.equals("1234") ){
+            String user = mEtText.getText().toString();
             Intent intent = new Intent(MainActivity.this, CategoryActivity.class);
+            intent.putExtra("user", user);
             startActivity(intent);
             Toast.makeText(MainActivity.this, "Successfully Logged in", Toast.LENGTH_LONG).show();
         }else {

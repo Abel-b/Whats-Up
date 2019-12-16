@@ -7,6 +7,15 @@
     tools:context=".CategoryActivity">
 
     <TextView
+        android:id="@+id/userText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="50dp"
+        android:text="What would you like to see, "
+        android:layout_centerHorizontal="true"
+        android:textSize="24dp"/>
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Categories"

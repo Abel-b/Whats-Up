@@ -6,12 +6,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class CategoryActivity extends AppCompatActivity implements View.OnClickListener {
 
+
+    private TextView mUserText;
     @BindView(R.id.newsBtn) Button mNewsBtn;
     @BindView(R.id.wBtn) Button mWeatherBtn;
 
@@ -23,6 +26,11 @@ public class CategoryActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_category);
 
         ButterKnife.bind(this);
+
+        mUserText = (TextView) findViewById(R.id.userText);
+        Intent intent = getIntent();
+        String user = intent.getStringExtra("user");
+        mUserText.setText("What would you like to view, " + user);
 
         mNewsBtn.setOnClickListener(this);
         mWeatherBtn.setOnClickListener(this);
