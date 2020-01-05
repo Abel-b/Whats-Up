@@ -13,7 +13,7 @@ Abel B.
 
 ## Contact Information
 * Email: abelberhane011@gmail.com
-## Licence
+## License
 
 MIT License
 
