@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private void validate(String userName, String userPassword){
         if (userName.equals("Admin") && userPassword.equals("1234") ){
             String user = mEtText.getText().toString();
-            Intent intent = new Intent(MainActivity.this, CategoryActivity.class);
+            Intent intent = new Intent(MainActivity.this, NewsPageActivity.class);
             intent.putExtra("user", user);
             startActivity(intent);
             Toast.makeText(MainActivity.this, "Successfully Logged in", Toast.LENGTH_LONG).show();
