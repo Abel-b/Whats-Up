@@ -1,7 +1,6 @@
 package com.abel.whatsup;
 
 
-import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -15,12 +14,8 @@ import android.widget.TextView;
 import com.abel.whatsup.models.Article;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,16 +33,16 @@ public class NewsDetailFragment extends Fragment {
     @BindView(R.id.desc) TextView mDescription;
     @BindView(R.id.publishedAt) TextView mPublishedAt;
 
-    private Article articles;
+    private Article article;
 
     public NewsDetailFragment() {
         // Required empty public constructor
     }
-
-    public static  NewsDetailFragment newInstance(Article articles) {
+//
+    public static  NewsDetailFragment newInstance(Article article) {
         NewsDetailFragment newsDetailFragment = new NewsDetailFragment();
         Bundle args = new Bundle();
-        args.putParcelable("news", Parcels.wrap(articles));
+        args.putParcelable("news", Parcels.wrap(article));
         newsDetailFragment.setArguments(args);
         return newsDetailFragment;
     }
@@ -55,7 +50,7 @@ public class NewsDetailFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        articles = Parcels.unwrap(getArguments().getParcelable("news"));
+        article = Parcels.unwrap(getArguments().getParcelable("news"));
     }
 
 
@@ -68,14 +63,14 @@ public class NewsDetailFragment extends Fragment {
 
         RequestOptions options = new RequestOptions()
                 .centerCrop()
-                .placeholder(R.mipmap.ic_launcher_round)
-                .error(R.mipmap.ic_launcher_round);
+                .placeholder(R.drawable.icon_news)
+                .error(R.drawable.icon_news);
 
-        Glide.with(this).load(articles.getUrlToImage()).apply(options).into(mImageLabel);
+        Glide.with(this).load(article.getUrlToImage()).apply(options).into(mImageLabel);
 
-        mAuthor.setText(articles.getAuthor());
-        mDescription.setText(articles.getDescription());
-        mPublishedAt.setText(articles.getPublishedAt());
+        mAuthor.setText(article.getAuthor());
+        mDescription.setText(article.getDescription());
+        mPublishedAt.setText(Utils.DateFormat(article.getPublishedAt()));
 
         return view;
     }

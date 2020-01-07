@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -132,7 +133,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.MyView
             int itemPosition = getLayoutPosition();
             Intent intent = new Intent(context, NewsDetailActivity.class);
             intent.putExtra("position", itemPosition);
-            intent.putExtra("news", Parcels.wrap(articles));
+            intent.putExtra("news", Parcels.wrap(articles.get(itemPosition)));
             context.startActivity(intent);
         }
     }
