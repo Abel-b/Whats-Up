@@ -13,8 +13,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".NewsDetailActivity" />
-        <activity android:name=".NewsPageActivity" />
+        <activity android:name=".NewsDetailActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".NewsPageActivity" />
+        </activity>
+        <activity android:name=".NewsPageActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
         <activity android:name=".WeatherActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
