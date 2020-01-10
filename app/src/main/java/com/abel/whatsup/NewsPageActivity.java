@@ -1,11 +1,16 @@
 package com.abel.whatsup;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -16,6 +21,8 @@ import com.abel.whatsup.models.Article;
 import com.abel.whatsup.models.CountryNewsResponse;
 import com.abel.whatsup.network.NewsApi;
 import com.abel.whatsup.network.NewsClient;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,12 +50,28 @@ public class NewsPageActivity extends AppCompatActivity {
     private NewsListAdapter adapter;
     public static final String TAG = NewsPageActivity.class.getSimpleName();
 
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_page);
 
-       ButterKnife.bind(this);
+        ButterKnife.bind(this);
+
+        mAuth = FirebaseAuth.getInstance();
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null){
+                    getSupportActionBar().setTitle("Welcome, " + user.getDisplayName() + "!");
+                }else {
+
+                }
+            }
+        };
 
         NewsApi client = NewsClient.getNewsClient();
 
@@ -59,17 +82,17 @@ public class NewsPageActivity extends AppCompatActivity {
             public void onResponse(Call<CountryNewsResponse> call, Response<CountryNewsResponse> response) {
 
                 hideProgressBar();
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
                     Log.i("START IF", "BEGINNING");
                     articles = response.body().getArticles();
-                    adapter = new NewsListAdapter(articles,NewsPageActivity.this);
+                    adapter = new NewsListAdapter(articles, NewsPageActivity.this);
                     mRecyclerView.setAdapter(adapter);
                     RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(NewsPageActivity.this);
                     mRecyclerView.setLayoutManager(layoutManager);
                     mRecyclerView.setHasFixedSize(true);
                     Log.i("END IF", "LAST IF ");
 
-                }else{
+                } else {
                     showFailureMessage();
                     Log.i("ELSE", "else tag");
                 }
@@ -82,13 +105,54 @@ public class NewsPageActivity extends AppCompatActivity {
         });
     }
 
-    private void showFailureMessage () {
+    private void showFailureMessage() {
         mErrorTextView.setText("Bruh, some bug is bothering! Give me one more chance to fix your relation");
         mErrorTextView.setVisibility(View.VISIBLE);
     }
-    private void hideProgressBar(){
+
+    private void hideProgressBar() {
         mProgressBar.setVisibility(View.GONE);
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        int id = item.getItemId();
+        if (id == R.id.action_logout){
+            logout();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void logout(){
+        FirebaseAuth.getInstance().signOut();
+        Intent intent = new Intent(NewsPageActivity.this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+        mAuth.addAuthStateListener(mAuthListener);
+    }
+
+    @Override
+    public void onStop(){
+        super.onStop();
+        if (mAuthListener != null){
+            mAuth.removeAuthStateListener(mAuthListener);
+        }
+    }
+
 }
 
 //    public void loadNews(){
