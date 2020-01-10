@@ -16,6 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        android:paddingTop="200dp"
         android:layout_margin="16dp"
         android:visibility="gone"/>
 
@@ -45,6 +46,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+                android:paddingTop="200dp"
+                android:paddingLeft="200dp"
                 />
 
             <androidx.recyclerview.widget.RecyclerView

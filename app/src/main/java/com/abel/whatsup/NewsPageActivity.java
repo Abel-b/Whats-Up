@@ -13,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,9 +46,11 @@ public class NewsPageActivity extends AppCompatActivity {
     @BindView(R.id.errorTextView)
     TextView mErrorTextView;
 
+
     private RecyclerView.LayoutManager layoutManager;
     private List<Article> articles = new ArrayList<>();
     private NewsListAdapter adapter;
+    private String mSearchQuery;
     public static final String TAG = NewsPageActivity.class.getSimpleName();
 
     private FirebaseAuth mAuth;
@@ -60,22 +63,28 @@ public class NewsPageActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
+
+
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null){
-                    getSupportActionBar().setTitle("Welcome, " + user.getDisplayName() + "!");
+                    getSupportActionBar().setTitle("What's Up, " + user.getDisplayName() + "!");
                 }else {
 
                 }
             }
         };
+        Intent intent = getIntent();
+        String country = intent.getStringExtra("country");
 
         NewsApi client = NewsClient.getNewsClient();
 
-        Call<CountryNewsResponse> call = client.getNews("US", NEWS_API_KEY);
+
+
+        Call<CountryNewsResponse> call = client.getNews(country, NEWS_API_KEY);
 
         call.enqueue(new Callback<CountryNewsResponse>() {
             @Override
@@ -100,6 +109,7 @@ public class NewsPageActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<CountryNewsResponse> call, Throwable t) {
+                showFailureMessage();
                 Log.i("FAILURE", "on failure");
             }
         });
@@ -118,8 +128,30 @@ public class NewsPageActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
+
+        MenuInflater inflater1 = getMenuInflater();
+        inflater1.inflate(R.menu.toobar_search, menu);
+        MenuItem menuItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) menuItem.getActionView();
+        searchView.setQueryHint("Filter here");
+
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    Toast.makeText(NewsPageActivity.this, "This isn't functional, yet!", Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    return false;
+                }
+            });
+
+            return super.onCreateOptionsMenu(menu);
+        }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
