@@ -34,6 +34,16 @@ public class Article {
     @Expose
     private String content;
 
+    private String pushId;
+
+    public String getPushId() {
+        return pushId;
+    }
+
+    public void setPushId(String pushId) {
+        this.pushId = pushId;
+    }
+
     /**
      * No args constructor for use in serialization
      * 
@@ -120,12 +130,14 @@ public class Article {
         this.publishedAt = publishedAt;
     }
 
-    public Object getContent() {
+    public String getContent() {
         return content;
     }
 
     public void setContent(String content) {
         this.content = content;
     }
+
+
 
 }

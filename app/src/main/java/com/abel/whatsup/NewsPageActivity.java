@@ -103,6 +103,7 @@ public class NewsPageActivity extends AppCompatActivity {
 
                 } else {
                     showFailureMessage();
+                    hideProgressBar();
                     Log.i("ELSE", "else tag");
                 }
             }
@@ -110,6 +111,7 @@ public class NewsPageActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<CountryNewsResponse> call, Throwable t) {
                 showFailureMessage();
+                hideProgressBar();
                 Log.i("FAILURE", "on failure");
             }
         });
@@ -159,6 +161,10 @@ public class NewsPageActivity extends AppCompatActivity {
         if (id == R.id.action_logout){
             logout();
             return true;
+        } if (id == R.id.likedNews){
+            Intent intent = new Intent(NewsPageActivity.this, LikedNewsActivity.class);
+            startActivity(intent);
+            return false;
         }
         return super.onOptionsItemSelected(item);
     }

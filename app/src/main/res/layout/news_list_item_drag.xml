@@ -1,0 +1,74 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="130dp"
+            android:layout_height="100dp"
+            android:id="@+id/img"
+            android:src="@drawable/bottom_shadow"
+            android:scaleType="centerCrop"/>
+
+        <ImageView
+            android:id="@+id/dragIcon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignLeft="@id/img"
+            android:layout_alignBottom="@id/img"
+            android:gravity="bottom|left"
+            android:src="@drawable/ic_action_reorder"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:background="#ffffff"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/title"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:text="Title"
+            android:textColor="@color/colorPrimary"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Date"
+            android:drawableLeft="@drawable/ic_date"
+            android:id="@+id/publishedAt"
+            android:layout_below="@+id/title"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:textStyle="italic"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Desc"
+                android:id="@+id/desc"/>
+            <TextView
+                android:autoLink="all"
+                android:clickable="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="URL"
+                android:layout_below="@+id/desc"
+                android:id="@+id/url"/>
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

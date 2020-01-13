@@ -28,20 +28,23 @@
                 android:value=".NewsPageActivity" />
         </activity>
         <activity android:name=".NewsPageActivity">
-
-        </activity>
-        <activity android:name=".WeatherActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".CategoryActivity" />
-        </activity>
-        <activity android:name=".CategoryActivity" />
-        <activity android:name=".NewsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".NewsActivity" />
         </activity>
+<!--        <activity android:name=".WeatherActivity">-->
+<!--            <meta-data-->
+<!--                android:name="android.support.PARENT_ACTIVITY"-->
+<!--                android:value=".CategoryActivity" />-->
+<!--        </activity>-->
+        <activity android:name=".CategoryActivity" />
+        <activity android:name=".NewsActivity"/>
         <activity android:name=".MainActivity">
+        </activity>
+        <activity android:name=".LikedNewsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".NewsPageActivity" />
         </activity>
     </application>
 

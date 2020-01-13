@@ -1,19 +1,28 @@
 package com.abel.whatsup;
 
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.abel.whatsup.models.Article;
+import com.abel.whatsup.network.Constants;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.parceler.Parcels;
 
@@ -24,7 +33,7 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NewsDetailFragment extends Fragment {
+public class NewsDetailFragment extends Fragment implements View.OnClickListener {
 
     @BindView(R.id.img)
     ImageView mImageLabel;
@@ -32,8 +41,12 @@ public class NewsDetailFragment extends Fragment {
     TextView mAuthor;
     @BindView(R.id.desc) TextView mDescription;
     @BindView(R.id.publishedAt) TextView mPublishedAt;
+    @BindView(R.id.likeButton)
+    Button mLikedNewsButton;
+    @BindView(R.id.url) TextView mUrl;
 
     private Article article;
+    public static final String FIREBASE_CHILD_NEWS = "likedNews";
 
     public NewsDetailFragment() {
         // Required empty public constructor
@@ -51,6 +64,7 @@ public class NewsDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         article = Parcels.unwrap(getArguments().getParcelable("news"));
+
     }
 
 
@@ -69,10 +83,35 @@ public class NewsDetailFragment extends Fragment {
         Glide.with(this).load(article.getUrlToImage()).apply(options).into(mImageLabel);
 
         mAuthor.setText(article.getAuthor());
-        mDescription.setText(article.getDescription());
+        mDescription.setText(article.getContent());
         mPublishedAt.setText(Utils.DateFormat(article.getPublishedAt()));
+        mUrl.setText("Read more: " + article.getUrl());
+
+
+        mLikedNewsButton.setOnClickListener(this);
 
         return view;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v == mLikedNewsButton){
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            String uid = user.getUid();
+            DatabaseReference newsRef = FirebaseDatabase.getInstance().getReference(FIREBASE_CHILD_NEWS).child(uid);
+
+            DatabaseReference pushRef = newsRef.push();
+            String pushId = pushRef.getKey();
+            article.setPushId(pushId);
+            pushRef.setValue(article);
+            mLikedNewsButton.setEnabled(false);
+
+            Toast.makeText(getContext(), "Added to Favorites", Toast.LENGTH_LONG).show();
+            mLikedNewsButton.setCompoundDrawables(Drawable.createFromPath("@drawable/ic_action_like"), Drawable.createFromPath("@drawable/ic_action_like"),Drawable.createFromPath("@drawable/ic_action_like"), Drawable.createFromPath("@drawable/ic_action_like"));
+            Log.i("CHANGE BUTTON", "CHANGED!!!!");
+
+        }
+
     }
 
 }

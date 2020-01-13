@@ -14,14 +14,14 @@
         <ImageView
             android:id="@+id/img"
             android:layout_width="match_parent"
-            android:layout_height="280dp"
+            android:layout_height="200dp"
             android:scaleType="centerCrop"
             />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg1"
+            android:background="@drawable/bottom_shadow"
             android:paddingTop="20dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
@@ -35,7 +35,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:textSize="24dp"
-                android:textColor="@color/colorText"
+                android:textColor="@android:color/black"
                 android:textStyle="bold"/>
 
             <TextView
@@ -49,42 +49,70 @@
                 android:textColor="@color/colorTextTitle"
                 android:textStyle="italic" />
 
+
         </RelativeLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="2dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginTop="0dp"
+                android:orientation="vertical"
                 android:paddingLeft="30dp"
                 android:paddingTop="20dp"
                 android:paddingRight="30dp">
 
                 <TextView
+                    android:id="@+id/desc"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Description"
-                    android:id="@+id/desc"
+                    android:layout_marginBottom="10dp"
                     android:drawableLeft="@drawable/baseline_exit_to_app_white_18dp"
                     android:drawablePadding="4dp"
+                    android:fontFamily="sans-serif-thin"
+                    android:gravity="center"
+                    android:text="Description"
                     android:textColor="#000000"
                     android:textSize="15sp"
-                    android:textStyle="bold"
-                    android:fontFamily="sans-serif-thin"
-                    android:layout_marginBottom="10dp"
-                    android:gravity="center" />
+                    android:textStyle="bold" />
 
-
-
+                <TextView
+                    android:id="@+id/url"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/desc"
+                    android:autoLink="all"
+                    android:clickable="true"
+                    android:text="URL"
+                    android:textSize="13dp" />
             </LinearLayout>
-
         </RelativeLayout>
+
+        </androidx.core.widget.NestedScrollView>
     </LinearLayout>
+
+    <Button
+        android:id="@+id/likeButton"
+        android:backgroundTint="@color/button"
+        android:layout_width="50dp"
+        android:layout_height="40dp"
+        android:drawableLeft="@drawable/ic_action_like"
+        android:layout_marginLeft="320dp"
+        android:layout_marginTop="300dp"/>
+
+
+
 
 </FrameLayout>
