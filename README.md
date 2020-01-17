@@ -1,4 +1,4 @@
-# Whats-Up
+# Whats-Up [![codebeat badge](https://codebeat.co/badges/39d0a34c-34b4-48a0-bbc8-2df40ca1f48b)](https://codebeat.co/projects/github-com-abel-b-whats-up-master)
 An android app that fetches and displays daily news
 
 # Developer
