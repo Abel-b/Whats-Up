@@ -24,7 +24,7 @@ public class NewsActivity extends AppCompatActivity implements View.OnClickListe
 
     @BindView(R.id.countrySearch)
     EditText mCountrySearch;
-    @BindView(R.id.searchButton) Button mSearchButton;
+    @BindView(R.id.findButton) Button mSourceButton;
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -37,7 +37,7 @@ public class NewsActivity extends AppCompatActivity implements View.OnClickListe
 
         ButterKnife.bind(this);
 
-        mSearchButton.setOnClickListener(this);
+        mSourceButton.setOnClickListener(this);
 
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -56,12 +56,11 @@ public class NewsActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        if (v == mSearchButton){
-            String Country = mCountrySearch.getText().toString();
-            Intent intent = new Intent(NewsActivity.this, NewsPageActivity.class);
-            intent.putExtra("country", Country);
+        if (v == mSourceButton){
+            String input = mCountrySearch.getText().toString();
+            Intent intent = new Intent(NewsActivity.this, NewsBySourceActivity.class);
+            intent.putExtra("source", input);
             startActivity(intent);
-
         }
 
     }
@@ -103,6 +102,10 @@ public class NewsActivity extends AppCompatActivity implements View.OnClickListe
             Intent intent = new Intent(NewsActivity.this, LikedNewsActivity.class);
             startActivity(intent);
             return false;
+        } if (id == R.id.sourceNews){
+            Intent intent = new Intent(NewsActivity.this, SourceNewsActivity.class);
+            startActivity(intent);
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -113,6 +116,10 @@ public class NewsActivity extends AppCompatActivity implements View.OnClickListe
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
+    }
+
+    public void userInputCheckpoint(){
+
     }
 
 }

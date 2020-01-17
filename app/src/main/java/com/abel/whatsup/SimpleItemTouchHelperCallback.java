@@ -49,4 +49,24 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
         mAdapter.onItemDismiss(viewHolder.getAdapterPosition());
 
     }
+
+    @Override
+    public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState){
+        if (actionState != ItemTouchHelper.ACTION_STATE_IDLE){
+            if (viewHolder instanceof ItemTouchHelperViewHolder){
+                ItemTouchHelperViewHolder itemTouchHelperViewHolder = (ItemTouchHelperViewHolder) viewHolder;
+                itemTouchHelperViewHolder.onItemSelected();
+            }
+        }
+        super.onSelectedChanged(viewHolder, actionState);
+    }
+
+    @Override
+    public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder){
+        super.clearView(recyclerView, viewHolder);
+        if (viewHolder instanceof ItemTouchHelperViewHolder){
+            ItemTouchHelperViewHolder itemTouchHelperViewHolder = (ItemTouchHelperViewHolder) viewHolder;
+            itemTouchHelperViewHolder.onItemClear();;
+        }
+    }
 }

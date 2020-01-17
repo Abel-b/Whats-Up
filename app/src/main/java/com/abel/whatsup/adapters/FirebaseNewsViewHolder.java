@@ -1,15 +1,20 @@
 package com.abel.whatsup.adapters;
 
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.AnimationSet;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.abel.whatsup.ItemTouchHelperViewHolder;
 import com.abel.whatsup.NewsDetailActivity;
 import com.abel.whatsup.NewsDetailFragment;
 import com.abel.whatsup.OnStartDragListener;
@@ -30,7 +35,7 @@ import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
-public class FirebaseNewsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+public class FirebaseNewsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, ItemTouchHelperViewHolder {
     View mView;
     Context mContext;
     public ImageView mNewsImageView;
@@ -39,7 +44,7 @@ public class FirebaseNewsViewHolder extends RecyclerView.ViewHolder implements V
         super(itemView);
         mView = itemView;
         mContext = itemView.getContext();
-        itemView.setOnClickListener(this);
+
     }
 
 
@@ -92,4 +97,20 @@ public class FirebaseNewsViewHolder extends RecyclerView.ViewHolder implements V
 
     }
 
+    @Override
+    public void onItemSelected() {
+        Log.d("ANIMATION", "SELECTION");
+        AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator(mContext, R.animator.on_drag);
+        set.setTarget(itemView);
+        set.start();
+    }
+
+    @Override
+    public void onItemClear() {
+        Log.d("ANIMATION", "CLEARATION");
+        AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator(mContext, R.animator.off_drag);
+        set.setTarget(itemView);
+        set.start();
+
+    }
 }

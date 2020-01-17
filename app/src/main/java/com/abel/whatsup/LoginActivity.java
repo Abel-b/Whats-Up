@@ -33,6 +33,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+    private ProgressDialog mAuthProgressDialog;
 
 
 
@@ -42,6 +43,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_login);
 
         ButterKnife.bind(this);
+
+        createAuthProgressDialog();
 
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -70,6 +73,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             finish();
         }
         if (view == mLoginButton) {
+
+            mAuthProgressDialog.show();
+
 
             final String email = mEmailEditText.getText().toString().trim();
             String password = mPasswordEditText.getText().toString().trim();
@@ -128,5 +134,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (mAuthListener != null) {
             mAuth.removeAuthStateListener(mAuthListener);
         }
+    }
+
+    private void createAuthProgressDialog(){
+        mAuthProgressDialog = new ProgressDialog(this);
+        mAuthProgressDialog.setTitle("Loading...");
+        mAuthProgressDialog.setMessage("Hang in there, bro!");
+        mAuthProgressDialog.setCancelable(false);
     }
 }

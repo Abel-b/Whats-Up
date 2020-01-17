@@ -106,7 +106,7 @@ public class NewsDetailFragment extends Fragment implements View.OnClickListener
             pushRef.setValue(article);
             mLikedNewsButton.setEnabled(false);
 
-            Toast.makeText(getContext(), "Added to Favorites", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "Added to Watch later", Toast.LENGTH_LONG).show();
             mLikedNewsButton.setCompoundDrawables(Drawable.createFromPath("@drawable/ic_action_like"), Drawable.createFromPath("@drawable/ic_action_like"),Drawable.createFromPath("@drawable/ic_action_like"), Drawable.createFromPath("@drawable/ic_action_like"));
             Log.i("CHANGE BUTTON", "CHANGED!!!!");
 

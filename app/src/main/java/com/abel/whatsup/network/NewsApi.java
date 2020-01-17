@@ -8,9 +8,15 @@ import retrofit2.http.Query;
 
 public interface NewsApi {
 
+    @GET("everything")
+    Call<CountryNewsResponse> getEveryNews(
+            @Query("q") String country,
+            @Query("apiKey") String apiKey
+    );
+
     @GET("top-headlines")
-    Call<CountryNewsResponse> getNews(
-            @Query("country") String country,
+    Call<CountryNewsResponse> getNewsBySource(
+            @Query("sources") String Country,
             @Query("apiKey") String apiKey
     );
 }

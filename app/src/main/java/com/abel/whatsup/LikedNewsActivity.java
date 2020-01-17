@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -36,6 +37,8 @@ public class LikedNewsActivity extends AppCompatActivity implements OnStartDragL
     
     @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;
+    @BindView(R.id.progressBar)
+    ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,12 +83,16 @@ public class LikedNewsActivity extends AppCompatActivity implements OnStartDragL
         }
     }
     public void onStartDrag(RecyclerView.ViewHolder viewHolder){
+        hideProgressBar();
         mItemTouchHelper.startDrag(viewHolder);
     }
 
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
-
     }
+    private void hideProgressBar() {
+        mProgressBar.setVisibility(View.GONE);
+    }
+
 }
 

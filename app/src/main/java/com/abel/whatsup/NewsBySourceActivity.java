@@ -1,10 +1,5 @@
 package com.abel.whatsup;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,13 +12,16 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.abel.whatsup.adapters.NewsListAdapter;
 import com.abel.whatsup.models.Article;
 import com.abel.whatsup.models.CountryNewsResponse;
 import com.abel.whatsup.network.NewsApi;
 import com.abel.whatsup.network.NewsClient;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,10 +34,9 @@ import retrofit2.Response;
 
 import static com.abel.whatsup.network.Constants.NEWS_API_KEY;
 
-public class NewsPageActivity extends AppCompatActivity {
+public class NewsBySourceActivity extends AppCompatActivity {
 
-    @BindView
-            (R.id.recyclerView)
+    @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;
     @BindView(R.id.progressBar)
     ProgressBar mProgressBar;
@@ -56,6 +53,7 @@ public class NewsPageActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,29 +61,16 @@ public class NewsPageActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
+        fetchNewsBySource();
 
-        mAuth = FirebaseAuth.getInstance();
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    getSupportActionBar().setTitle("What's Up, " + user.getDisplayName() + "!");
-                } else {
-
-                }
-            }
-        };
-        fetchNews();
     }
-
-    public void fetchNews() {
+    public void fetchNewsBySource() {
         Intent intent = getIntent();
-        String input = intent.getStringExtra("country");
+        String input = intent.getStringExtra("source");
 
         NewsApi client = NewsClient.getNewsClient();
 
-        Call<CountryNewsResponse> call = client.getEveryNews(input, NEWS_API_KEY);
+        Call<CountryNewsResponse> call = client.getNewsBySource(input, NEWS_API_KEY);
 
         call.enqueue(new Callback<CountryNewsResponse>() {
             @Override
@@ -95,9 +80,9 @@ public class NewsPageActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     Log.i("START IF", "BEGINNING");
                     articles = response.body().getArticles();
-                    adapter = new NewsListAdapter(articles, NewsPageActivity.this);
+                    adapter = new NewsListAdapter(articles, NewsBySourceActivity.this);
                     mRecyclerView.setAdapter(adapter);
-                    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(NewsPageActivity.this);
+                    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(NewsBySourceActivity.this);
                     mRecyclerView.setLayoutManager(layoutManager);
                     mRecyclerView.setHasFixedSize(true);
                     Log.i("END IF", "LAST IF ");
@@ -138,8 +123,28 @@ public class NewsPageActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
 
-            return super.onCreateOptionsMenu(menu);
-        }
+        MenuInflater inflater1 = getMenuInflater();
+        inflater1.inflate(R.menu.toobar_search, menu);
+        MenuItem menuItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) menuItem.getActionView();
+        searchView.setQueryHint("Filter here");
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Toast.makeText(NewsBySourceActivity.this, "This isn't functional, yet!", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+        return super.onCreateOptionsMenu(menu);
+    }
 
 
     @Override
@@ -149,68 +154,19 @@ public class NewsPageActivity extends AppCompatActivity {
             logout();
             return true;
         } if (id == R.id.likedNews){
-            Intent intent = new Intent(NewsPageActivity.this, LikedNewsActivity.class);
+            Intent intent = new Intent(NewsBySourceActivity.this, LikedNewsActivity.class);
             startActivity(intent);
             return false;
-        } if (id == R.id.sourceNews){
-            Intent intent = new Intent(NewsPageActivity.this, SourceNewsActivity.class);
-            startActivity(intent);
-            return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
     private void logout(){
         FirebaseAuth.getInstance().signOut();
-        Intent intent = new Intent(NewsPageActivity.this, LoginActivity.class);
+        Intent intent = new Intent(NewsBySourceActivity.this, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
     }
 
-    @Override
-    public void onStart(){
-        super.onStart();
-        mAuth.addAuthStateListener(mAuthListener);
-    }
-
-    @Override
-    public void onStop(){
-        super.onStop();
-        if (mAuthListener != null){
-            mAuth.removeAuthStateListener(mAuthListener);
-        }
-    }
-
 }
-
-//    public void loadNews(){
-//
-//        NewsApi newsApi = NewsClient.getNewsClient().create(NewsApi.class);
-//        String country = Utils.getCountry();
-//
-//        Call<CountryNewsResponse> call = newsApi.getNews(country, NEWS_API_KEY);
-//
-//        call.enqueue(new Callback<CountryNewsResponse>() {
-//            @Override
-//            public void onResponse(Call<CountryNewsResponse> call, Response<CountryNewsResponse> response) {
-//                if (response.isSuccessful() && response.body().getArticles() != null){
-//                    if(!articles.isEmpty()){
-//                        articles.clear();
-//                    }
-//                    articles = response.body().getArticles();
-//                    adapter = new NewsListAdapter(articles, NewsPageActivity.this);
-//                    mRecyclerView.setAdapter(adapter);
-//                    adapter.notifyDataSetChanged();
-//                }else {
-//                    Toast.makeText(NewsPageActivity.this, "No Result!", Toast.LENGTH_LONG).show();
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<CountryNewsResponse> call, Throwable t) {
-//
-//            }
-//        });
-//    }
-//}
