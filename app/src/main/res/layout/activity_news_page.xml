@@ -9,56 +9,78 @@
     android:background="@color/colorBackground">
 
 
-
+    <Button
+        android:id="@+id/retryButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Retry"
+        android:layout_marginTop="450dp"
+        android:layout_marginLeft="120dp"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/errorTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:paddingTop="200dp"
-        android:layout_margin="16dp"
+        android:layout_marginTop="400dp"
+        android:layout_marginLeft="75dp"
+        android:fontFamily="sans-serif-black"
+        android:visibility="gone" />
+    <ImageView
+        android:id="@+id/errorImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/oops"
         android:visibility="gone"/>
+
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:text="Headlines"
-                android:fontFamily="sans-serif-condensed-light"
-                android:textSize="24dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
+                android:layout_marginLeft="66dp"
                 android:layout_marginTop="10dp"
-            />
-            <ProgressBar
+                android:layout_marginRight="16dp"
+                android:fontFamily="sans-serif-condensed-light"
+                android:text="What's Up with the World"
+                android:textSize="24dp"
+                android:textStyle="bold" />
+
+            <!--            <EditText-->
+            <!--                android:id="@+id/countrySearch"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:drawableLeft="@drawable/ic_action_search"-->
+            <!--                android:hint="Search Topics here"-->
+            <!--                android:textColorHint="@android:color/darker_gray"/>-->
+
+            <com.github.ybq.android.spinkit.SpinKitView xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/progressBar"
+                style="@style/SpinKitView.Large.CubeGrid"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:paddingTop="200dp"
-                android:paddingLeft="175dp"
-                />
+                android:layout_gravity="center"
+                android:layout_marginTop="190dp"
+                app:SpinKit_Color="@color/button" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scrollbars="vertical">
-            </androidx.recyclerview.widget.RecyclerView>
+                android:scrollbars="vertical"></androidx.recyclerview.widget.RecyclerView>
 
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

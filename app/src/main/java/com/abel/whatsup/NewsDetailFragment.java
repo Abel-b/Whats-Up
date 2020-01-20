@@ -1,6 +1,7 @@
 package com.abel.whatsup;
 
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
@@ -89,6 +90,7 @@ public class NewsDetailFragment extends Fragment implements View.OnClickListener
 
 
         mLikedNewsButton.setOnClickListener(this);
+        mUrl.setOnClickListener(this);
 
         return view;
     }
@@ -109,7 +111,12 @@ public class NewsDetailFragment extends Fragment implements View.OnClickListener
             Toast.makeText(getContext(), "Added to Watch later", Toast.LENGTH_LONG).show();
             mLikedNewsButton.setCompoundDrawables(Drawable.createFromPath("@drawable/ic_action_like"), Drawable.createFromPath("@drawable/ic_action_like"),Drawable.createFromPath("@drawable/ic_action_like"), Drawable.createFromPath("@drawable/ic_action_like"));
             Log.i("CHANGE BUTTON", "CHANGED!!!!");
-
+        }
+        if (v == mUrl){
+            String url = article.getUrl();
+            Intent intent = new Intent(getContext(), NewsActivity.class);
+            intent.putExtra("url", url);
+            startActivity(intent);
         }
 
     }

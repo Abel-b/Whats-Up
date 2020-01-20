@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -44,6 +45,7 @@ public class NewsBySourceActivity extends AppCompatActivity {
     TextView mErrorTextView;
 
 
+
     private RecyclerView.LayoutManager layoutManager;
     private List<Article> articles = new ArrayList<>();
     private NewsListAdapter adapter;
@@ -61,16 +63,17 @@ public class NewsBySourceActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        fetchNewsBySource();
+        fetchNewsBySource("cnn");
+
 
     }
-    public void fetchNewsBySource() {
+    public void fetchNewsBySource(String mSearchQuery) {
         Intent intent = getIntent();
-        String input = intent.getStringExtra("source");
+        mSearchQuery = intent.getStringExtra("source");
 
         NewsApi client = NewsClient.getNewsClient();
 
-        Call<CountryNewsResponse> call = client.getNewsBySource(input, NEWS_API_KEY);
+        Call<CountryNewsResponse> call = client.getNewsBySource(mSearchQuery, NEWS_API_KEY);
 
         call.enqueue(new Callback<CountryNewsResponse>() {
             @Override
@@ -105,7 +108,7 @@ public class NewsBySourceActivity extends AppCompatActivity {
 
 
     private void showFailureMessage() {
-        mErrorTextView.setText("Bruh, some bug is bothering! Give me one more chance to fix your relation");
+        mErrorTextView.setText("Bruh, some bug is bothering me! Let's try searching again.");
         mErrorTextView.setVisibility(View.VISIBLE);
     }
 
@@ -127,13 +130,15 @@ public class NewsBySourceActivity extends AppCompatActivity {
         inflater1.inflate(R.menu.toobar_search, menu);
         MenuItem menuItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) menuItem.getActionView();
-        searchView.setQueryHint("Filter here");
+        searchView.setQueryHint("Search here");
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Toast.makeText(NewsBySourceActivity.this, "This isn't functional, yet!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(NewsBySourceActivity.this, NewsBySourceActivity.class);
+                intent.putExtra("source", query);
+                startActivity(intent);
                 return true;
             }
 
@@ -157,6 +162,9 @@ public class NewsBySourceActivity extends AppCompatActivity {
             Intent intent = new Intent(NewsBySourceActivity.this, LikedNewsActivity.class);
             startActivity(intent);
             return false;
+        }
+        if (id == R.id.sourceNews){
+            Toast.makeText(this, "Already Opened", Toast.LENGTH_LONG).show();
         }
         return super.onOptionsItemSelected(item);
     }

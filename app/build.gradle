@@ -84,5 +84,9 @@ dependencies {
 
     implementation 'com.firebaseui:firebase-ui-database:3.3.1'
 
+    //progressBar
+    implementation 'com.github.ybq:Android-SpinKit:1.4.0'
+
+
 
 }

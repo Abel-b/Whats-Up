@@ -3,12 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ProgressBar
+    <com.github.ybq.android.spinkit.SpinKitView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/progressBar"
+        style="@style/SpinKitView.Large.CubeGrid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        />
+        android:layout_marginTop="150dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="150dp"
+        app:SpinKit_Color="@color/button" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"

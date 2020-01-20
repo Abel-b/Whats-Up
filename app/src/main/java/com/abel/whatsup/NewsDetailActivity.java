@@ -4,7 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.abel.whatsup.adapters.NewsPagerAdapter;
@@ -17,10 +22,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class NewsDetailActivity extends AppCompatActivity {
+public class NewsDetailActivity extends AppCompatActivity implements View.OnClickListener {
 
-//    @BindView(R.id.viewPager)
-//    ViewPager mViewPager;
     private NewsPagerAdapter adapterViewPager;
     private Article article;
 
@@ -29,6 +32,9 @@ public class NewsDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_detail);
         ButterKnife.bind(this);
+
+
+
 
         article = Parcels.unwrap(getIntent().getParcelableExtra("news"));
         int startingPosition = getIntent().getIntExtra("position", 0);
@@ -49,6 +55,11 @@ public class NewsDetailActivity extends AppCompatActivity {
 //        adapterViewPager = new NewsPagerAdapter(getSupportFragmentManager(), 1, articles);
 //        mViewPager.setAdapter(adapterViewPager);
 //        mViewPager.setCurrentItem(startingPosition);
+
+    }
+
+    @Override
+    public void onClick(View v) {
 
     }
 }

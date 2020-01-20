@@ -52,7 +52,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user  = firebaseAuth.getCurrentUser();
                 if (user != null){
-                    Intent intent = new Intent(LoginActivity.this, NewsActivity.class);
+                    String query = "Ethiopia";
+                    Intent intent = new Intent(LoginActivity.this, NewsPageActivity.class);
+                    intent.putExtra("country", query);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                     finish();
@@ -116,6 +118,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (!task.isSuccessful()){
+                    mAuthProgressDialog.dismiss();
                     Toast.makeText(LoginActivity.this, "Authentication Failed, Please try again", Toast.LENGTH_LONG).show();
                 }
             }

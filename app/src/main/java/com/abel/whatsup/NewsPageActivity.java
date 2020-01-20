@@ -1,17 +1,23 @@
 package com.abel.whatsup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Layout;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -36,7 +42,7 @@ import retrofit2.Response;
 
 import static com.abel.whatsup.network.Constants.NEWS_API_KEY;
 
-public class NewsPageActivity extends AppCompatActivity {
+public class NewsPageActivity extends AppCompatActivity implements View.OnClickListener{
 
     @BindView
             (R.id.recyclerView)
@@ -45,6 +51,12 @@ public class NewsPageActivity extends AppCompatActivity {
     ProgressBar mProgressBar;
     @BindView(R.id.errorTextView)
     TextView mErrorTextView;
+    @BindView(R.id.errorImageView)
+    ImageView mErrorImageView;
+    @BindView(R.id.retryButton)
+    Button mRetryButton;
+
+
 
 
     private RecyclerView.LayoutManager layoutManager;
@@ -61,7 +73,10 @@ public class NewsPageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_page);
 
+
         ButterKnife.bind(this);
+
+        mRetryButton.setOnClickListener(this);
 
 
         mAuth = FirebaseAuth.getInstance();
@@ -76,16 +91,16 @@ public class NewsPageActivity extends AppCompatActivity {
                 }
             }
         };
-        fetchNews();
+        fetchNews("Ethiopia");
     }
 
-    public void fetchNews() {
+    public void fetchNews(String mSearchQuery) {
         Intent intent = getIntent();
-        String input = intent.getStringExtra("country");
+        mSearchQuery = intent.getStringExtra("country");
 
         NewsApi client = NewsClient.getNewsClient();
 
-        Call<CountryNewsResponse> call = client.getEveryNews(input, NEWS_API_KEY);
+        Call<CountryNewsResponse> call = client.getEveryNews(mSearchQuery, NEWS_API_KEY);
 
         call.enqueue(new Callback<CountryNewsResponse>() {
             @Override
@@ -120,13 +135,10 @@ public class NewsPageActivity extends AppCompatActivity {
 
 
     private void showFailureMessage() {
-        mErrorTextView.setText("Bruh, some bug is bothering! Give me one more chance to fix your relation");
+        mErrorTextView.setText("Bruh, some bug is bothering me! Let's try searching again.");
         mErrorTextView.setVisibility(View.VISIBLE);
-    }
-
-    private void showNotFoundMessage(){
-        mErrorTextView.setText("Sorry, we didn't find anything on that for now!");
-        mErrorTextView.setVisibility(View.VISIBLE);
+        mErrorImageView.setVisibility(View.VISIBLE);
+        mRetryButton.setVisibility(View.VISIBLE);
     }
 
     private void hideProgressBar() {
@@ -137,8 +149,31 @@ public class NewsPageActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
+        MenuInflater inflater1 = getMenuInflater();
+        inflater1.inflate(R.menu.toobar_search, menu);
+        MenuItem menuItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) menuItem.getActionView();
+        searchView.setQueryHint("Search here");
 
-            return super.onCreateOptionsMenu(menu);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Intent intent = new Intent(NewsPageActivity.this, NewsPageActivity.class);
+                intent.putExtra("country", query);
+                startActivity(intent);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+
+
+        return super.onCreateOptionsMenu(menu);
         }
 
 
@@ -153,10 +188,13 @@ public class NewsPageActivity extends AppCompatActivity {
             startActivity(intent);
             return false;
         } if (id == R.id.sourceNews){
-            Intent intent = new Intent(NewsPageActivity.this, SourceNewsActivity.class);
+            String query = "cnn";
+            Intent intent = new Intent(NewsPageActivity.this, NewsBySourceActivity.class);
+            intent.putExtra("source", query);
             startActivity(intent);
             return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -182,6 +220,15 @@ public class NewsPageActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onClick(View v) {
+        if (v == mRetryButton){
+            String query = "Ethiopia";
+            Intent intent = new Intent(NewsPageActivity.this, NewsPageActivity.class);
+            intent.putExtra("country", query);
+            startActivity(intent);
+        }
+    }
 }
 
 //    public void loadNews(){

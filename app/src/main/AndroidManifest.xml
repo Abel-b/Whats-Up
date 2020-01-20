@@ -13,7 +13,8 @@
         android:logo="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SourceNewsActivity"></activity>
+        <activity android:name=".SourceNewsActivity">
+        </activity>
         <activity
             android:name=".LoginActivity"
             android:theme="@style/noAppBar">
@@ -23,7 +24,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".NewsBySourceActivity" />
+        <activity android:name=".NewsBySourceActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".NewsPageActivity" />
+        </activity>
         <activity
             android:name=".CreateAccountActivity"
             android:theme="@style/noAppBar" />
@@ -33,16 +38,14 @@
                 android:value=".NewsPageActivity" />
         </activity>
         <activity android:name=".NewsPageActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".NewsActivity" />
         </activity> <!-- <activity android:name=".WeatherActivity"> -->
         <!-- <meta-data -->
         <!-- android:name="android.support.PARENT_ACTIVITY" -->
         <!-- android:value=".CategoryActivity" /> -->
         <!-- </activity> -->
         <activity android:name=".CategoryActivity" />
-        <activity android:name=".NewsActivity" />
+        <activity android:name=".NewsActivity">
+        </activity>
         <activity android:name=".MainActivity"></activity>
         <activity android:name=".LikedNewsActivity">
             <meta-data

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
@@ -7,41 +7,20 @@
     android:layout_height="match_parent">
 
 
-    <LinearLayout
-        android:orientation="vertical"
+    <WebView
+        android:id="@+id/webView"
         android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.github.ybq.android.spinkit.SpinKitView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/progressBar"
+        style="@style/SpinKitView.Large.CubeGrid"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:text="What's Up with the World"
-            android:textSize="37dp"
-            app:fontFamily="sans-serif-black" />
-
-        <EditText
-            android:id="@+id/countrySearch"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_action_search"
-            android:hint="Search Topics here"
-            android:textColorHint="@android:color/darker_gray" />
-
-
-        <Button
-            android:id="@+id/findButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/button_login"
-            android:text="     Find News     "
-            android:textColor="@color/colorText"
-            android:layout_marginLeft="145dp"/>
-
-    </LinearLayout>
+        android:layout_gravity="center"
+        android:layout_centerInParent="true"
+        app:SpinKit_Color="@color/button" />
 
 
 
-
-</FrameLayout>
+</RelativeLayout>

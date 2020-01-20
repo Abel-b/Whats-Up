@@ -87,6 +87,7 @@
                     android:drawablePadding="4dp"
                     android:fontFamily="sans-serif-thin"
                     android:gravity="center"
+                    android:maxLines="15"
                     android:text="Description"
                     android:textColor="#000000"
                     android:textSize="15sp"
@@ -97,7 +98,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@+id/desc"
-                    android:autoLink="all"
+                    android:textColor="@color/colorAccent"
                     android:clickable="true"
                     android:text="URL"
                     android:textSize="13dp" />
@@ -116,6 +117,7 @@
         android:drawableLeft="@drawable/ic_action_like"
         android:layout_marginLeft="320dp"
         android:layout_marginTop="300dp"/>
+
 
 
 
